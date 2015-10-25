@@ -1,6 +1,7 @@
 // Map each class of actor to a character
 var actorChars = {
   "@": Player,
+  "b": Enemy,
   "o": Coin, // A coin will wobble up and down
   "=": Lava, "|": Lava, "v": Lava  
 };
@@ -75,15 +76,16 @@ Vector.prototype.times = function(factor) {
 // A Player has a size, speed and position.
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.5));
-  this.size = new Vector(0.8, 1.5);
+  this.size = new Vector(0.7, 1.3);
   this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
 
+
 // Add a new actor type as a class
 function Coin(pos) {
   this.basePos = this.pos = pos.plus(new Vector(0.2, 0.1));
-  this.size = new Vector(0.6, 0.6);
+  this.size = new Vector(0.6, 0.8);
   // Make it go back and forth in a sine wave.
   this.wobble = Math.random() * Math.PI * 2;
 }
@@ -107,6 +109,17 @@ function Lava(pos, ch) {
   }
 }
 Lava.prototype.type = "lava";
+
+
+function Enemy(pos, ch) {
+  this.pos = pos;
+  this.size = new Vector(1, 1);
+   {
+    // Horizontal lava
+    this.speed = new Vector(2, 0);
+  }
+}
+Enemy.prototype.type = "enemy";
 
 // Helper function to easily create an element of a type provided 
 function elt(name, className) {
@@ -274,6 +287,16 @@ Level.prototype.animate = function(step, keys) {
 };
 
 Lava.prototype.act = function(step, level) {
+  var newPos = this.pos.plus(this.speed.times(step));
+  if (!level.obstacleAt(newPos, this.size))
+    this.pos = newPos;
+  else if (this.repeatPos)
+    this.pos = this.repeatPos;
+  else
+    this.speed = this.speed.times(-1);
+};
+
+Enemy.prototype.act = function(step, level) {
   var newPos = this.pos.plus(this.speed.times(step));
   if (!level.obstacleAt(newPos, this.size))
     this.pos = newPos;
