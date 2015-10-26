@@ -447,7 +447,7 @@ function runGame(plans, Display) {
     // Create a new level using the nth element of array plans
     // Pass in a reference to Display function, DOMDisplay (in index.html).
     runLevel(new Level(plans[n]), Display, function(status) {
-        if (status == "lost") 
+      if (status == "lost") 
         alert('Try Again?');
       if (status == "lost") 
         startLevel(n);
@@ -458,6 +458,11 @@ function runGame(plans, Display) {
         
 
     });
+    
+
+
   }
+  
   startLevel(0);
 }
+
