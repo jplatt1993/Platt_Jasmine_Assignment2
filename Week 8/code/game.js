@@ -1,7 +1,6 @@
 // Map each class of actor to a character
 var actorChars = {
   "@": Player,
-  "b": Enemy,
   "o": Coin, // A coin will wobble up and down
   "=": Lava, "|": Lava, "v": Lava  
 };
@@ -76,11 +75,10 @@ Vector.prototype.times = function(factor) {
 // A Player has a size, speed and position.
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.5));
-  this.size = new Vector(0.7, 1.3);
+  this.size = new Vector(0.8, 1.5);
   this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
-
 
 // Add a new actor type as a class
 function Coin(pos) {
@@ -109,17 +107,6 @@ function Lava(pos, ch) {
   }
 }
 Lava.prototype.type = "lava";
-
-
-function Enemy(pos, ch) {
-  this.pos = pos;
-  this.size = new Vector(1, 1);
-   {
-    // Horizontal lava
-    this.speed = new Vector(2, 0);
-  }
-}
-Enemy.prototype.type = "enemy";
 
 // Helper function to easily create an element of a type provided 
 function elt(name, className) {
@@ -296,26 +283,7 @@ Lava.prototype.act = function(step, level) {
     this.speed = this.speed.times(-1);
 };
 
-Enemy.prototype.act = function(step, level) {
-  var newPos = this.pos.plus(this.speed.times(step));
-  if (!level.obstacleAt(newPos, this.size))
-    this.pos = newPos;
-  else if (this.repeatPos)
-    this.pos = this.repeatPos;
-  else
-    this.speed = this.speed.times(-1);
-};
 
-
-var maxStep = 0.05;
-
-var wobbleSpeed = 8, wobbleDist = 0.07;
-
-Coin.prototype.act = function(step) {
-  this.wobble += step * wobbleSpeed;
-  var wobblePos = Math.sin(this.wobble) * wobbleDist;
-  this.pos = this.basePos.plus(new Vector(0, wobblePos));
-};
 
 var maxStep = 0.05;
 
@@ -479,12 +447,16 @@ function runGame(plans, Display) {
     // Create a new level using the nth element of array plans
     // Pass in a reference to Display function, DOMDisplay (in index.html).
     runLevel(new Level(plans[n]), Display, function(status) {
-      if (status == "lost")
+        if (status == "lost") 
+        alert('Try Again?');
+      if (status == "lost") 
         startLevel(n);
       else if (n < plans.length - 1)
         startLevel(n + 1);
       else
         console.log("You win!");
+        
+
     });
   }
   startLevel(0);

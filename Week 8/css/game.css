@@ -1,18 +1,19 @@
-.background    { background-image: url("https://hdwallpapers.cat/wallpaper_mirror/sparkling_forest_nature_drawn_hd-wallpaper-1687235.jpg");
+.background    { background-image: url("http://i62.tinypic.com/1pe6c8.jpg");
                  table-layout: fixed;
                  border-spacing: 0;   }
 .background td { padding: 0;          }
-.lava          { background: rgb(255, 100, 100); }
-.wall          { background: blue;   }
+.lava          { background: rgb(46, 138, 46); }
+.wall          { background: white;   }
 
 .actor  { position: absolute;  }
 .coin   { background: url("http://themushroomkingdom.net/images/ani/ani_smwcoin.gif"); }
-.player { background: url("http://i60.tinypic.com/xok1n7.gif");
-.enemy  { background: url("http://i62.tinypic.com/optk07.gif"); }
+.player { background: url("http://i60.tinypic.com/xok1n7.gif"); }
+
 
 .game {
   overflow: hidden;
-  max-width: 600px;
-  max-height: 450px;
+  max-width: 1400px;
+  max-height: 1080px;
   position: relative;
 }
+
